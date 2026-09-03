@@ -20,11 +20,11 @@ class Layer {
 
         [[nodiscard]] size_t getNeurons() const;
 
-        Matrix& getWeights();
+        [[nodiscard]] Matrix& getWeights();
 
         [[nodiscard]] const Matrix& getWeights() const;
 
-        Matrix& getBiases();
+        [[nodiscard]] Matrix& getBiases();
 
         [[nodiscard]] const Matrix& getBiases() const;
         

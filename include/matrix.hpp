@@ -12,7 +12,7 @@ public:
     void setElement(size_t row, size_t column, float newValue);
     [[nodiscard]] size_t getRows() const;
     [[nodiscard]] size_t getColumns() const;
-    float* getData();
+    [[nodiscard]]float* getData();
     [[nodiscard]] const float* getData() const;
 
 

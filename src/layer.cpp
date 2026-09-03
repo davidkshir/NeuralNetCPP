@@ -1,6 +1,7 @@
 #include "layer.hpp"
 #include <cmath>
 #include <random>
+#include <stdexcept>
 
 Layer::Layer(const size_t inputs, const size_t neurons, const Activation function) // Use ReLU as default activation function
         : weights(neurons, inputs),

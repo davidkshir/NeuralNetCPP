@@ -2,6 +2,9 @@
 #define NETWORK_H
 
 #include <filesystem>
+#include <vector>
+#include <cstddef>
+#include <cstdint>
 #include "layer.hpp"
 #include "matrix.hpp"
 
@@ -21,6 +24,15 @@ class Network{
 
         void addLayer(size_t neurons, Activation function = Activation::reLU);
 
+        void saveNetwork(std::filesystem::path const &path) const;
+
+        static Network loadNetwork(std::filesystem::path const &path);
+
+        void train(const std::vector<Matrix>& training_data, const std::vector<Matrix>& training_labels, size_t epochs, DebugLevel debug_level = DebugLevel::Standard);
+
+        Matrix inference(const Matrix& input);
+
+    private:
         Matrix forwardPropagation(Matrix const &input);
 
         static float crossEntropyLoss(Matrix const &prediction, Matrix const &target);
@@ -31,15 +43,6 @@ class Network{
 
         void updateNetwork();
 
-        void saveNetwork(std::filesystem::path const &path) const;
-
-        static Network loadNetwork(std::filesystem::path const &path);
-
-        void train(const std::vector<Matrix>& training_data, const std::vector<Matrix>& training_labels, size_t epochs, DebugLevel debug_level = DebugLevel::Standard);
-
-        Matrix inference(const Matrix& input);
-
-    private:
         uint32_t input_size;
         float learning_rate;
         std::vector<Layer> layers;
