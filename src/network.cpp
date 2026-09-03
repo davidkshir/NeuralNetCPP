@@ -13,12 +13,15 @@ Network::Network(const float learning_rate, const size_t input_size)
         throw std::invalid_argument("Learning rate must be > 0.");
     }
 
-    if(input_size <= 0){
+    if(input_size == 0){
         throw std::invalid_argument("Input size must be > 0.");
     }
 }
 
         void Network::addLayer(size_t neurons, Activation function) {
+            if (neurons == 0) {
+                throw std::invalid_argument("Neurons must be > 0.");
+            }
             if(layers.empty()){
                 layers.emplace_back(input_size, neurons, function);
             }

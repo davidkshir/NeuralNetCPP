@@ -59,7 +59,7 @@ Matrix Layer::back(Matrix const &outputGradient) {
 
             weight_gradient = activation_gradient * inputCache.transposeMatrix(); 
 
-            bias_gradient = activation_gradient.rowSum();
+            bias_gradient = activation_gradient;
 
             Matrix input_gradient = weights.transposeMatrix() * activation_gradient;
 
