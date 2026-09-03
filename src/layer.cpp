@@ -11,9 +11,7 @@ Layer::Layer(const size_t inputs, const size_t neurons, const Activation functio
         weight_gradient(neurons, inputs),
         bias_gradient(neurons, 1)
         {
-            if (inputs == 0 || neurons == 0){
-                throw std::invalid_argument("Layer can't have 0 inputs/neurons.");
-            }
+
             const float standardDeviation = std::sqrt(2.0f / static_cast<float>(inputs));
             std::random_device rd;
             std::mt19937 engine(rd());
@@ -110,10 +108,6 @@ Activation Layer::getActFunction() const {
         }
 
 Matrix Layer::softmax(Matrix const &input) {
-            if (input.getRows() == 0 || input.getColumns() == 0){
-                throw std::invalid_argument("Matrix cannot be empty.");
-            }
-
             Matrix output(input.getRows(), input.getColumns());
 
             for (size_t i = 0; i < input.getColumns(); i++) {

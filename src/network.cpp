@@ -46,10 +46,6 @@ Network::Network(const float learning_rate, const size_t input_size)
                 throw std::invalid_argument("Matrices must have same dimensions for loss calculation.");
             }
 
-            if(prediction.getColumns() == 0){
-                throw std::invalid_argument("Cannot calculate loss for empty batch.");
-            }
-
             float loss = 0.0f;
 
             float safe_predict = 0.0f;
@@ -68,10 +64,6 @@ Network::Network(const float learning_rate, const size_t input_size)
         Matrix Network::crossEntropyGradient(Matrix const &prediction, Matrix const &target) {
             if(prediction.getRows() != target.getRows() || prediction.getColumns() != target.getColumns()){
                 throw std::invalid_argument("Matrices must have same dimensions for loss calculation.");
-            }
-
-            if(prediction.getColumns() == 0){
-                throw std::invalid_argument("Cannot calculate loss for empty batch.");
             }
 
             return prediction - target; // Softmax + cross-entropy derivative simplifies to (prediction - target)
