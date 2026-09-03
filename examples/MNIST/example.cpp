@@ -25,9 +25,9 @@ int main(){
     neural_net.train(training_images, training_labels, 3, DebugLevel::Standard);
 
 
-    neural_net.saveNetwork("examples/MNIST/Example.nn");
+    neural_net.saveNetwork("examples/MNIST/TrainedModel.nn");
 
-    Network network = Network::loadNetwork("examples/MNIST/Example.nn");
+    Network network = Network::loadNetwork("examples/MNIST/TrainedModel.nn");
 
     const mnist testing_data(R"(test\t10k-images-idx3-ubyte)", R"(test\t10k-labels-idx1-ubyte)");
 
@@ -63,5 +63,5 @@ int main(){
 
     const double accuracy = static_cast<double>(correct) / static_cast<double>(testing_images.size()) * 100.0;
 
-    std::cout << "Test Accuracy: " << accuracy << "%\n";
+    std::cout << '\n' << "Test Accuracy: " << accuracy << "%\n";
 }
