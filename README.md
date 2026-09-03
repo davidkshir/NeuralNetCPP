@@ -1,4 +1,4 @@
-# Neural Network From Scratch
+<img width="345" height="257" alt="image" src="https://github.com/user-attachments/assets/983ad920-f1ed-41bc-947d-50ac3673a159" /># Neural Network From Scratch
 
 A dataset-independent feed-forward neural network library written from scratch in C++. The project implements the underlying neural network and matrix operations without machine-learning frameworks or external linear algebra libraries.
 
@@ -40,7 +40,8 @@ Input Size: 784
 Output Size: 10  
 Learning Rate: 0.01  
 
-The repository does not include MNIST training and test sets. To use the MNIST example, download the training and testing data/labels and place them in the respective `data/` and `test/` directories.
+The repository includes an MNIST loader that converts the original IDX image and label files into matrices compatible with the network.
+The repository does **not** include MNIST training and test sets. To use the MNIST example, download the training and testing data/labels and place them in the respective `data/` and `test/` directories.
 
 The MNIST data/labels can be downloaded from this MNIST dataset mirror: https://github.com/cvdfoundation/mnist
 
