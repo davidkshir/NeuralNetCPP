@@ -89,6 +89,9 @@ mnist::mnist(std::filesystem::path const &data, std::filesystem::path const &lab
                 training_labels.emplace_back(10, 1);
                 Matrix& current_label = training_labels.back();
                 float* label_data = current_label.getData();
+                if (labels[i] >= 10) {
+                    throw std::invalid_argument("Labels must be 0-9.");
+                }
                 label_data[labels[i]] = 1.0f;
             }
         }

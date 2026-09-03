@@ -1,5 +1,6 @@
 #include "network.hpp"
 #include "mnist.hpp"
+#include <iostream>
 
 
 int main(){

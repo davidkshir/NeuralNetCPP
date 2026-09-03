@@ -1,7 +1,7 @@
 #include "network.hpp"
+#include <iostream>
 #include <filesystem>
 #include <fstream>
-#include <chrono>
 #include <algorithm>
 #include <cmath>
 
@@ -217,6 +217,24 @@ Network::Network(const float learning_rate, const size_t input_size)
                 throw std::invalid_argument("Network must have at least one layer.");
             }
 
+            if (epochs == 0) {
+                throw std::invalid_argument("Epochs must be greater than 0.");
+            }
+
+            for (size_t i = 0; i + 1 < layers.size(); i++) {
+                if (layers[i].getActFunction() == Activation::softmax) {
+                    throw std::invalid_argument(
+                        "Softmax activation can only be used on the output layer."
+                    );
+                }
+            }
+
+            if (layers.back().getActFunction() != Activation::softmax) {
+                throw std::invalid_argument(
+                    "Output layer must use softmax for training."
+                );
+            }
+
             const size_t output_size = layers.back().getNeurons();
 
             for(const Matrix &label: training_labels){
@@ -299,15 +317,20 @@ Network::Network(const float learning_rate, const size_t input_size)
                             << "\033[2K" << "--------------------------------------------" << '\n'
                             << "\033[2K" << "Epoch: " << e + 1 << " / " << epochs << '\n'
                             << "\033[2K" << "Average Loss: " << avg_loss / static_cast<float>(total_processed) << '\n'
-                            << "\033[2K" << "Accuracy: " << static_cast<float>(correct_predictions) / (static_cast<float>(total_processed) + 1.0f) * 100.0f << '\n'
+                            << "\033[2K" << "Accuracy: " << static_cast<float>(correct_predictions) / static_cast<float>(total_processed) * 100.0f << '\n'
                             << "\033[2K" << "--------------------------------------------" << '\n';
                 }
             }
-            std::cout
-                        << "\033[7B" << '\n'
-                        << "============================================" << '\n'
-                        << "Training Completed" << '\n'
-                        << "============================================" << '\n';
+            if (debug_level != DebugLevel::None) {
+                if (debug_level == DebugLevel::Standard) {
+                    std::cout << "\033[7B";
+                }
+                std::cout
+                         << "============================================" << '\n'
+                         << "Training Completed" << '\n'
+                         << "============================================" << '\n';
+            }
+
 
         }
 
