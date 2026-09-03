@@ -1,8 +1,8 @@
 #ifndef MATRIX_H
 #define MATRIX_H
 
-#include <iostream>
 #include <vector>
+#include <cstddef>
 
 class Matrix {
 public:
@@ -25,10 +25,10 @@ public:
     [[nodiscard]] Matrix multiplyMatrix(const Matrix& other) const;
     [[nodiscard]] Matrix transposeMatrix() const;
 
-    Matrix operator+(const Matrix &other) const;
-    Matrix operator-(const Matrix &other) const;
-    Matrix operator*(float scalar) const;
-    Matrix operator*(const Matrix &other) const;
+    [[nodiscard]] Matrix operator+(const Matrix &other) const;
+    [[nodiscard]] Matrix operator-(const Matrix &other) const;
+    [[nodiscard]] Matrix operator*(float scalar) const;
+    [[nodiscard]] Matrix operator*(const Matrix &other) const;
 
 private:
     void checkBounds(size_t row, size_t column) const;
