@@ -6,6 +6,12 @@ Matrix::Matrix(const size_t num_row, const size_t num_column) // Avoids creating
         columns(num_column), 
         data(std::vector(num_row * num_column, 0.0f))
         {
+            if (rows == 0) {
+                throw std::invalid_argument("Matrices must have at least 1 row.");
+            }
+            if (columns == 0) {
+                throw std::invalid_argument("Matrices must have at least 1 column.");
+            }
         }
 
 float Matrix::getElement(const size_t row, const size_t column) const {
