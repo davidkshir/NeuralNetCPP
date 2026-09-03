@@ -1,0 +1,11 @@
+# CLion / JetBrains
+.idea/
+*.iml
+
+# CMake build directories
+cmake-build-*/
+build/
+
+# MNIST datasets
+data/train*
+test/t10k*
