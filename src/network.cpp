@@ -97,7 +97,7 @@ Network::Network(const float learning_rate, const size_t input_size)
         void Network::saveNetwork(std::filesystem::path const &path) const {
             std::ofstream save_file(path, std::ios::binary);
             if(!save_file){
-                throw std::runtime_error("Failed to open/crete network save file.");
+                throw std::runtime_error("Failed to open/create network save file.");
             }
 
             const auto layer_count = static_cast<uint32_t>(layers.size());
@@ -108,6 +108,9 @@ Network::Network(const float learning_rate, const size_t input_size)
             save_file.write(reinterpret_cast<const char*>(&learning_rate), sizeof(learning_rate));
             save_file.write(reinterpret_cast<const char*>(&input_size), sizeof(input_size));
             save_file.write(reinterpret_cast<const char*>(&layer_count), sizeof(layer_count));
+            if(!save_file){
+                throw std::runtime_error("Failed to write network save file.");
+            }
 
             for(size_t i = 0; i < layer_count; i++){
 
@@ -115,8 +118,8 @@ Network::Network(const float learning_rate, const size_t input_size)
                 Activation layer_act_function = layers[i].getActFunction();
 
                 // Store weight & bias matrices to avoid making extra redundant copies
-                Matrix layer_weights = layers[i].getWeights();
-                Matrix layer_biases = layers[i].getBiases();
+                const Matrix& layer_weights = layers[i].getWeights();
+                const Matrix& layer_biases = layers[i].getBiases();
 
                 const float* p_layer_weights = layer_weights.getData();
                 const float* p_layer_biases = layer_biases.getData();
@@ -126,6 +129,9 @@ Network::Network(const float learning_rate, const size_t input_size)
                 save_file.write(reinterpret_cast<const char*>(&layer_act_function), sizeof(layer_act_function));
                 save_file.write(reinterpret_cast<const char*>(p_layer_weights),  static_cast<std::streamsize>(sizeof(float) * (layer_weights.getRows() * layer_weights.getColumns())));
                 save_file.write(reinterpret_cast<const char*>(p_layer_biases), static_cast<std::streamsize>(sizeof(float) * (layer_biases.getRows() * layer_biases.getColumns())));
+                if(!save_file){
+                    throw std::runtime_error("Failed to write network save file.");
+                }
             }
         }
 
@@ -148,6 +154,9 @@ Network::Network(const float learning_rate, const size_t input_size)
             load_file.read(reinterpret_cast<char*>(&learning_rate), sizeof(learning_rate));
             load_file.read(reinterpret_cast<char*>(&input_size), sizeof(input_size));
             load_file.read(reinterpret_cast<char*>(&layer_count), sizeof(layer_count));
+            if(!load_file){
+                throw std::runtime_error("Failed to read network save file.");
+            }
 
             if(magic_number != MAGIC_NUMBER){
                 throw std::invalid_argument("Incorrect filetype.");
@@ -167,6 +176,9 @@ Network::Network(const float learning_rate, const size_t input_size)
 
                 load_file.read(reinterpret_cast<char*>(&layer_neuron_count), sizeof(layer_neuron_count));
                 load_file.read(reinterpret_cast<char*>(&layer_act_function), sizeof(layer_act_function));
+                if(!load_file){
+                    throw std::runtime_error("Failed to read network save file.");
+                }
 
                 network.addLayer(layer_neuron_count, layer_act_function);
 
