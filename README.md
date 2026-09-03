@@ -1,4 +1,4 @@
-<img width="345" height="257" alt="image" src="https://github.com/user-attachments/assets/983ad920-f1ed-41bc-947d-50ac3673a159" /># Neural Network From Scratch
+# Neural Network From Scratch
 
 A dataset-independent feed-forward neural network library written from scratch in C++. The project implements the underlying neural network and matrix operations without machine-learning frameworks or external linear algebra libraries.
 
