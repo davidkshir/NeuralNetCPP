@@ -17,15 +17,52 @@ A dataset-independent feed-forward neural network library written from scratch i
 
 The library is organized around three abstractions:
 
-Matrix → Layer → Network
+**Matrix → Layer → Network**
 
-Matrix: Provides the numerical operations used throughout the library.
+**Matrix:** Provides the numerical operations used throughout the library, including matrix multiplication, transposition, and scalar operations.
 
-Layer: Manages the parameters and state of an individual network layer.
+**Layer:** Manages the weights, biases, activation functions, and intermediate values required for forward propagation and backpropagation.
 
-Network: Composes layers and provides training, prediction, and model management.
+**Network:** Composes layers and provides training, inference, and model management.
 
 External datasets are converted into matrices before being passed to the network, keeping the core implementation independent of any particular dataset.
+
+## Training
+
+Training is implemented using forward propagation, backpropagation, and gradient descent.
+
+During forward propagation, each layer computes its weighted inputs and applies its activation function. Intermediate values required for training are cached by each layer and used during backpropagation to calculate gradients for the weights and biases.
+
+Hidden layers currently use ReLU activation, while the output layer uses Softmax for classification. 
+
+## Usage
+
+Create a network by specifying its learning rate and input size, then add layers sequentially to define its architecture.
+
+```cpp
+Network neural_net(0.01f, 784);
+
+neural_net.addLayer(128);
+neural_net.addLayer(64);
+neural_net.addLayer(10, Activation::softmax);
+```
+
+Layers default to ReLU activation when no activation function is specified. Training data and labels are provided as vectors of `Matrix` objects.
+
+Train a network by providing training samples, corresponding labels, the number of epochs, and debug level.
+
+```cpp
+neural_net.train(training_samples, training_labels, 3, DebugLevel::Standard);
+```
+
+Trained networks can be saved to a binary file and loaded later for inference:
+
+```cpp
+neural_net.saveNetwork("model.nn");
+
+Network loaded_net = Network::loadNetwork("model.nn");
+Matrix output = loaded_net.inference(input);
+```
 
 ## MNIST Example
 
